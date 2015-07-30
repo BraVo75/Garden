@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Properties>
+    <Property name="filename">garden.log</Property>
+  </Properties>
+
+  <Appenders>
+    <File name="File" fileName="${filename}">
+      <PatternLayout pattern="%d %p %m (%C)%n"/>
+    </File>
+  </Appenders>
+  <Loggers>
+    <Root level="debug">
+      <AppenderRef ref="File"/>
+    </Root>
+  </Loggers>
+</Configuration>

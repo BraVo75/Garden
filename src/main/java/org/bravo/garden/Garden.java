@@ -1,8 +1,8 @@
 package org.bravo.garden;
 
-import com.pi4j.io.gpio.*;
-import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
-import com.pi4j.io.gpio.event.GpioPinListenerDigital;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by Volker on 13.06.2015.
@@ -10,24 +10,12 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 public class Garden {
 
     public static void main(String args[]) throws InterruptedException {
-        System.out.println("Garden Controller ... started.");
 
-        // create gpio controller
-        final GpioController gpio = GpioFactory.getInstance();
+        final Logger log = LogManager.getLogger(Garden.class);
+        log.info("Garden Controller ... started.");
 
-        // provision gpio pin #02 as an input pin with its internal pull down resistor enabled
-        final GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, PinPullResistance.PULL_DOWN);
-
-        // create and register gpio pin listener
-        myButton.addListener(new GpioPinListenerDigital() {
-            public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-                // display pin state on console
-                System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getState());
-            }
-
-        });
-
-        System.out.println(" ... complete the GPIO #02 circuit and see the listener feedback here in the console.");
+        final FloodDetection floodDetection = new FloodDetection();
+        floodDetection.start();
 
         // keep program running until user aborts (CTRL-C)
         for (;;) {
