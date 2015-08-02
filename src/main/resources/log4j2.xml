@@ -6,7 +6,7 @@
 
   <Appenders>
     <File name="File" fileName="${filename}">
-      <PatternLayout pattern="%d %p %m (%C)%n"/>
+      <PatternLayout pattern="%d %p %m %n"/>
     </File>
   </Appenders>
   <Loggers>

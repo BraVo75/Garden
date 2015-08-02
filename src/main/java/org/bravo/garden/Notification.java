@@ -13,9 +13,6 @@ import javax.mail.internet.MimeMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Created by Volker Braun, MaibornWolff GmbH on 27.07.15.
- */
 public class Notification {
 
     private final static Logger log = LogManager.getLogger(Notification.class);

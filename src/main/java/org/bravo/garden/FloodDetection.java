@@ -32,8 +32,14 @@ public class FloodDetection {
         // create and register gpio pin listener
         pegelSchalter.addListener(new GpioPinListenerDigital() {
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-                notification.sendNotification("HOCHWASSER!!!", "Pegelstand im Brunnen hat um "+new Date()+" den Maximalstand erreicht!");
-                log.info("ACHTUNG Hochwasser! Pegelschalter" + event.getPin() + " meldet " + event.getState());
+                if (event.getState().isHigh()) {
+                    notification.sendNotification("HOCHWASSER!!!", "Pegelstand im Brunnen hat um "+new Date()+" den Maximalstand erreicht!");
+                    log.info("ACHTUNG Hochwasser! Pegelschalter" + event.getPin() + " meldet " + event.getState());
+                }
+                else {
+                    notification.sendNotification("Hochwasser Entwarnung", "Pegelstand im Brunnen hat um "+new Date()+" wieder Normalstand erreicht!");
+                    log.info("Hochwasser Entwarnung! Pegelschalter" + event.getPin() + " meldet " + event.getState());
+                }
             }
         });
 
