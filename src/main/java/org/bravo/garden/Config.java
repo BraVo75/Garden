@@ -6,11 +6,11 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Created by Volker Braun, MaibornWolff GmbH on 27.07.15.
+ * Created by Volker Braun, MaibornWolff GmbH
  */
 public class Config {
 
-    private static String CONFIG_FILE = "garden.properties";
+    private static final String CONFIG_FILE = "garden.properties";
 
     public Properties loadConfig() {
         Properties config = new Properties();

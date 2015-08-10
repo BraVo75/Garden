@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Created by Volker on 13.06.2015.
+ * Created by Volker
  */
 public class Garden {
 
@@ -18,8 +18,9 @@ public class Garden {
         floodDetection.start();
 
         // keep program running until user aborts (CTRL-C)
+        //noinspection InfiniteLoopStatement
         for (;;) {
-            Thread.sleep(500);
+            Thread.sleep(2000);
         }
 
         // stop all GPIO activity/threads by shutting down the GPIO controller

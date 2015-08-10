@@ -23,18 +23,10 @@ public class Notification {
         this.config = config;
     }
 
-    public enum Type {EMAIL};
-
-    public void sendNotification(String text) {
-        sendNotification(text, Type.EMAIL);
-    }
+    public enum Type {EMAIL}
 
     public void sendNotification(String subject, String text) {
         sendNotification(subject, text, Type.EMAIL);
-    }
-
-    public void sendNotification(String text, Type type) {
-        sendNotification("GARDEN NOTIFICATION", text, type);
     }
 
     public void sendNotification(String subject, String text, Type type)  {
