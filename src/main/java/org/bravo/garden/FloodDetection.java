@@ -18,11 +18,14 @@ public class FloodDetection {
 
     private Notification notification;
     private Config config;
+    private boolean state;
+    private boolean flooding;
 
     public void start() {
         config = new Config();
         notification = new Notification(config.loadConfig());
         notification.sendNotification("Gartensteuerung gestartet", "Die Gartensteuerung wurde um "+new Date()+" gestartet.");
+        flooding = false;
 
         final GpioController gpio = GpioFactory.getInstance();
 
@@ -31,14 +34,34 @@ public class FloodDetection {
 
         // create and register gpio pin listener
         pegelSchalter.addListener(new GpioPinListenerDigital() {
-            public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+            public void handleGpioPinDigitalStateChangeEvent(final GpioPinDigitalStateChangeEvent event) {
                 if (event.getState().isHigh()) {
-                    notification.sendNotification("HOCHWASSER!!!", "Pegelstand im Brunnen hat um "+new Date()+" den Maximalstand erreicht!");
-                    log.info("ACHTUNG Hochwasser! Pegelschalter" + event.getPin() + " meldet " + event.getState());
+                    state = true;
+                    new java.util.Timer().schedule(
+                            new java.util.TimerTask() {
+                                @Override
+                                public void run() {
+                                    if (state == true) { // if state is still high after 5 seconds, send notification
+                                        notification.sendNotification("HOCHWASSER!!!", "Pegelstand im Brunnen hat um " + new Date() + " den Maximalstand erreicht!");
+                                        log.info("ACHTUNG Hochwasser! Pegelschalter" + event.getPin() + " meldet " + event.getState());
+                                        flooding = true;
+                                    }
+                                    else {
+                                        log.info("Fehlalarm.");
+                                        flooding = false;
+                                    }
+                                }
+                            },
+                            5000
+                    );
                 }
                 else {
-                    notification.sendNotification("Hochwasser Entwarnung", "Pegelstand im Brunnen hat um "+new Date()+" wieder Normalstand erreicht!");
-                    log.info("Hochwasser Entwarnung! Pegelschalter" + event.getPin() + " meldet " + event.getState());
+                    state = false;
+                    if (flooding == true) {
+                        notification.sendNotification("Hochwasser Entwarnung", "Pegelstand im Brunnen hat um " + new Date() + " wieder Normalstand erreicht!");
+                        log.info("Hochwasser Entwarnung! Pegelschalter" + event.getPin() + " meldet " + event.getState());
+                        flooding = false;
+                    }
                 }
             }
         });
