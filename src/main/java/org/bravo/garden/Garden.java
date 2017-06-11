@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Created by Volker
+ *
+ * TODO: Send alive status message every week
  */
 public class Garden {
 

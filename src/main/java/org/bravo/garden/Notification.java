@@ -67,7 +67,7 @@ public class Notification {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-        log.info("Sent email with subject: "+subject);
+        log.info("Sent email to "+config.getProperty("notification_email_to")+" with subject: "+subject);
     }
 
 }
